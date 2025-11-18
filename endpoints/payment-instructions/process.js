@@ -14,8 +14,8 @@ module.exports = createHandler({
 
     const httpStatus =
       response.status === 'failed'
-        ? helpers.http_statuses.HTTP_400_BAD_REQUEST // For all parsing/validation/business failures
-        : helpers.http_statuses.HTTP_200_OK; // For 'successful' or 'pending'
+        ? helpers.http_statuses.HTTP_400_BAD_REQUEST
+        : helpers.http_statuses.HTTP_200_OK;
     return {
       status: httpStatus,
       data: response,
