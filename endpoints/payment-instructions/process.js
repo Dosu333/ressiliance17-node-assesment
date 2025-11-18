@@ -1,0 +1,24 @@
+const { createHandler } = require('@app-core/server');
+const parseInstruction = require('@app/services/payment-processor/parse-instruction');
+
+module.exports = createHandler({
+  path: '/payment-instructions',
+  method: 'post',
+  middlewares: [],
+
+  async handler(rc, helpers) {
+    const payload = rc.body;
+
+    // Call service
+    const response = await parseInstruction(payload);
+
+    const httpStatus =
+      response.status === 'failed'
+        ? helpers.http_statuses.HTTP_400_BAD_REQUEST // For all parsing/validation/business failures
+        : helpers.http_statuses.HTTP_200_OK; // For 'successful' or 'pending'
+    return {
+      status: httpStatus,
+      data: response,
+    };
+  },
+});
